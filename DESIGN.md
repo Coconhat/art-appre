@@ -29,6 +29,7 @@ The question *Gaano kalayo?* (How far?) is asked on the first screen and answere
 | linen | `#151311` | black linen of a thob |
 | thread | `#a3162a` | madder-red tatreez thread |
 | sun | `#f2c230` | the Philippine sun |
+| LED red | `#ff3d24` | the roadside fuel price board in *Halaga* |
 | flag-* | `#000 #fff #007a3d #ce1126` | held back until *Kalayaan* |
 
 ## Type

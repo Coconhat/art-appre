@@ -1,7 +1,8 @@
 # Gaano Kalayo? (How far is far?)
 
 An interactive artwork about Palestine, and how close it is to the Philippines, made for an Art
-Appreciation final. Nine scroll-driven parts with 3D scenes, procedural art and live sound.
+Appreciation final by Nhat Vu Le, Jay-el Oconer, Renzo Cabral and Marc Bradley Arboleda. Ten
+scroll-driven parts with 3D scenes, procedural art and live sound.
 
 - **Present it:** [docs/PRESENTER_GUIDE.md](docs/PRESENTER_GUIDE.md)
 - **What everything means:** the Artist statement page at `/statement`
@@ -30,6 +31,7 @@ npm run build && npm run start   # for presenting (smoother)
 | Bilang | `Count.tsx`, `three/LightsStage.tsx` | 74,561-point shader field |
 | Sining | `Gallery.tsx`, `art/*` | procedural tatreez, SVG homages |
 | Sinulid | `Thread.tsx`, `three/GlobeStage.tsx` | cross-stitch globe, running-stitch threads |
+| Halaga | `Price.tsx`, `art/Ripples.tsx`, `art/PriceBoard.tsx` | canvas ripples, SVG seven-segment fuel price board |
 | Kalayaan | `Freedom.tsx`, `art/KiteSky.tsx` | flag assembly, kite physics |
 
 Scroll choreography is in `src/hooks/useChapter.ts` (GSAP ScrollTrigger + Lenis). The globe's land
