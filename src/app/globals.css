@@ -1,0 +1,222 @@
+@import "tailwindcss";
+
+/*
+  Palette, taken from the subject rather than from a theme:
+  night   – a Gaza night during a blackout, lit only by phones and flares
+  lamp    – the oil lamp / candle that replaces electricity
+  paper   – text on the night, the colour of an old document
+  dust    – concrete dust after a strike
+  ink     – charcoal for text on dust
+  concrete– the separation wall
+  linen   – black linen of a Palestinian thob, ground of the embroidery
+  thread  – madder red of tatreez thread
+  sea     – the Mediterranean off Gaza
+  sun     – the sun of the Philippine flag
+  flag-*  – held back until the last chapter (see "Sining" and "Kalayaan")
+*/
+@theme {
+  --color-night: #0b1621;
+  --color-night-2: #122131;
+  --color-lamp: #f0b965;
+  --color-paper: #e6e0d4;
+  --color-paper-dim: #b9b3a7;
+  --color-dust: #cdc7bc;
+  --color-ink: #1c1b19;
+  --color-concrete: #a19e96;
+  --color-linen: #151311;
+  --color-thread: #a3162a;
+  --color-sea: #4f7f84;
+  --color-sun: #f2c230;
+  --color-flag-black: #000000;
+  --color-flag-white: #ffffff;
+  --color-flag-green: #007a3d;
+  --color-flag-red: #ce1126;
+
+  --font-serif: var(--font-newsreader), Georgia, "Times New Roman", serif;
+  --font-arabic: var(--font-amiri), "Noto Naskh Arabic", serif;
+  --font-type: var(--font-courier), "Courier New", Courier, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html {
+  background: var(--color-night);
+  color: var(--color-paper);
+  scrollbar-color: color-mix(in oklab, var(--color-paper) 28%, transparent) transparent;
+  scrollbar-width: thin;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-optical-sizing: auto;
+  font-size: clamp(1.0625rem, 0.96rem + 0.32vw, 1.25rem);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+  font-variant-numeric: oldstyle-nums proportional-nums;
+}
+
+::selection {
+  background: var(--color-thread);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-lamp);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Links are underlined in running text; navigation opts out with the no-underline utility,
+   which can only win because this rule sits in the base layer. */
+@layer base {
+  a {
+    color: inherit;
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+  }
+
+  a:hover {
+    text-decoration-thickness: 2px;
+  }
+}
+
+/* Type scale: one very large size, one statement size, one text size. */
+.t-display {
+  font-size: clamp(3.25rem, 0.9rem + 9.2vw, 10rem);
+  line-height: 0.9;
+  letter-spacing: -0.035em;
+  font-variation-settings: "opsz" 72;
+  font-weight: 380;
+  text-wrap: balance;
+}
+
+.t-headline {
+  font-size: clamp(2.2rem, 1rem + 3.9vw, 5rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  font-variation-settings: "opsz" 60;
+  font-weight: 400;
+  text-wrap: balance;
+}
+
+.t-statement {
+  font-size: clamp(1.45rem, 1.05rem + 1.15vw, 2.25rem);
+  line-height: 1.2;
+  letter-spacing: -0.012em;
+  font-variation-settings: "opsz" 32;
+  text-wrap: pretty;
+}
+
+.t-body {
+  font-size: inherit;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+.t-small {
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.tabular {
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.lining {
+  font-variant-numeric: lining-nums proportional-nums;
+}
+
+.arabic {
+  font-family: var(--font-arabic);
+  font-style: normal;
+  letter-spacing: 0;
+}
+
+/* One outer margin for the whole piece. */
+.frame {
+  padding-inline: clamp(1rem, 4.5vw, 3.5rem);
+}
+
+.measure {
+  max-width: 34ch;
+}
+
+.measure-wide {
+  max-width: 60ch;
+}
+
+/* Scroll-revealed text starts hidden only when scripts are running. */
+html.js [data-beat] {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* The pinned stage of a chapter. */
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.stage-canvas {
+  position: absolute;
+  inset: 0;
+}
+
+.stage-canvas canvas {
+  touch-action: pan-y;
+}
+
+/* Concrete, linen and paper are drawn with SVG noise so they read as material, not flat fills. */
+.tex-concrete {
+  background-color: var(--color-concrete);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.1  0 0 0 0 0.1  0 0 0 0 0.09  0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.tex-paper {
+  background-color: #e9e2d3;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35  0 0 0 0 0.28  0 0 0 0 0.18  0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.tex-linen {
+  background-color: var(--color-linen);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Cpath d='M0 .5h6M.5 0v6' stroke='%23ffffff' stroke-opacity='.035'/%3E%3C/svg%3E");
+}
+
+/* Text set over a live scene sits on a solid band on phones, where scenes run behind it. */
+@media (max-width: 767px) {
+  .over-scene {
+    background: color-mix(in oklab, var(--color-night) 82%, transparent);
+    padding: 1rem 1.1rem 1.15rem;
+    margin-inline: -0.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
