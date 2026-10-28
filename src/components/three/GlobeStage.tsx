@@ -151,24 +151,54 @@ export default function GlobeStage({ progress, labels }: Props & { labels: RefOb
   );
 }
 
+function buildStitches() {
+  const dots = landDots as number[];
+  const positions = new Float32Array((dots.length / 2) * 3);
+  for (let i = 0; i < dots.length; i += 2) {
+    const v = toXYZ(dots[i], dots[i + 1], R * 1.002);
+    positions.set([v.x, v.y, v.z], (i / 2) * 3);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  return g;
+}
+
+/** Each thread's arc as a tube, and how many stitches it is sewn with. */
+function buildThreads() {
+  return THREADS.map((t) => {
+    const a = toXYZ(t.from.lat, t.from.lon, 1).normalize();
+    const b = toXYZ(t.to.lat, t.to.lon, 1).normalize();
+    const angle = a.angleTo(b);
+    const pts: THREE.Vector3[] = [];
+    for (let i = 0; i <= 80; i++) {
+      const s = i / 80;
+      // slerp along the great circle, lifted off the cloth in the middle
+      const v = new THREE.Vector3()
+        .copy(a)
+        .multiplyScalar(Math.sin((1 - s) * angle) / Math.sin(angle))
+        .add(b.clone().multiplyScalar(Math.sin(s * angle) / Math.sin(angle)));
+      pts.push(v.multiplyScalar(R * (1.004 + Math.sin(Math.PI * s) * t.lift * Math.min(1, angle))));
+    }
+    const geometry = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 260, 0.014, 6, false);
+    return { geometry, dashes: Math.round(angle * 60), sew: t.sew };
+  });
+}
+
+let built: { stitches: THREE.BufferGeometry; threads: ReturnType<typeof buildThreads> } | null = null;
+
+/** Embroiders the land and lays the threads once, ahead of time (see LoadGate); later mounts reuse them. */
+export function prepare() {
+  built ??= { stitches: buildStitches(), threads: buildThreads() };
+  return built;
+}
+
 function Globe({ progress, labels }: Props & { labels: RefObject<(HTMLElement | null)[]> }) {
   const { camera, size } = useThree();
   const group = useRef<THREE.Group>(null);
   const smooth = useRef(0);
   const tmp = useMemo(() => new THREE.Vector3(), []);
   const normal = useMemo(() => new THREE.Vector3(), []);
-
-  const stitches = useMemo(() => {
-    const dots = landDots as number[];
-    const positions = new Float32Array((dots.length / 2) * 3);
-    for (let i = 0; i < dots.length; i += 2) {
-      const v = toXYZ(dots[i], dots[i + 1], R * 1.002);
-      positions.set([v.x, v.y, v.z], (i / 2) * 3);
-    }
-    const g = new THREE.BufferGeometry();
-    g.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    return g;
-  }, []);
+  const { stitches, threads: arcs } = prepare();
 
   // Materials are built here, not as JSX, so the uniforms updated every frame are the ones on the GPU.
   // Shader colours are written as display (sRGB) values, since raw shaders skip colour conversion.
@@ -186,33 +216,19 @@ function Globe({ progress, labels }: Props & { labels: RefObject<(HTMLElement | 
 
   const threads = useMemo(
     () =>
-      THREADS.map((t) => {
-        const a = toXYZ(t.from.lat, t.from.lon, 1).normalize();
-        const b = toXYZ(t.to.lat, t.to.lon, 1).normalize();
-        const angle = a.angleTo(b);
-        const pts: THREE.Vector3[] = [];
-        for (let i = 0; i <= 80; i++) {
-          const s = i / 80;
-          // slerp along the great circle, lifted off the cloth in the middle
-          const v = new THREE.Vector3()
-            .copy(a)
-            .multiplyScalar(Math.sin((1 - s) * angle) / Math.sin(angle))
-            .add(b.clone().multiplyScalar(Math.sin(s * angle) / Math.sin(angle)));
-          pts.push(v.multiplyScalar(R * (1.004 + Math.sin(Math.PI * s) * t.lift * Math.min(1, angle))));
-        }
-        const geometry = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 260, 0.014, 6, false);
+      arcs.map(({ geometry, dashes, sew }) => {
         const material = new THREE.ShaderMaterial({
           vertexShader: threadVertex,
           fragmentShader: threadFragment,
           uniforms: {
             uDraw: { value: 0 },
-            uDashes: { value: Math.round(angle * 60) },
+            uDashes: { value: dashes },
             uColor: { value: new THREE.Vector3(0.82, 0.11, 0.2) },
           },
         });
-        return { geometry, material, sew: t.sew };
+        return { geometry, material, sew };
       }),
-    [],
+    [arcs],
   );
 
   const pins = useMemo(() => Object.values(PINS).map((p) => toXYZ(p.lat, p.lon, R * 1.01)), []);

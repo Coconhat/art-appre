@@ -75,7 +75,7 @@ export function PackTags() {
                 aria-pressed={isPacked}
                 disabled={locked}
                 onClick={() => toggle(item)}
-                className={`group relative flex h-[4.6rem] w-full cursor-pointer items-center gap-3 pl-12 pr-4 text-left text-ink transition duration-300 ease-[var(--ease-out-expo)] tex-paper [clip-path:polygon(14%_0,100%_0,100%_100%,14%_100%,0_70%,0_30%)] hover:-translate-y-1 disabled:cursor-not-allowed disabled:opacity-35 ${
+                className={`group relative flex h-[4.6rem] w-full cursor-pointer items-center gap-3 pl-10 pr-3 text-left sm:pl-12 sm:pr-4 text-ink transition duration-300 ease-[var(--ease-out-expo)] tex-paper [clip-path:polygon(14%_0,100%_0,100%_100%,14%_100%,0_70%,0_30%)] hover:-translate-y-1 disabled:cursor-not-allowed disabled:opacity-35 ${
                   isPacked ? "-translate-y-1" : ""
                 }`}
               >
@@ -84,7 +84,7 @@ export function PackTags() {
                 <span className="t-body leading-tight">{item}</span>
                 <span
                   aria-hidden
-                  className={`ml-auto shrink-0 -rotate-12 border-2 border-thread px-1.5 text-[0.7rem] italic leading-5 text-thread transition duration-300 ${
+                  className={`absolute right-1.5 top-1.5 shrink-0 -rotate-12 border-2 border-thread bg-[#e9e2d3] px-1.5 text-[0.7rem] italic leading-5 text-thread transition duration-300 sm:static sm:ml-auto sm:bg-transparent ${
                     isPacked ? "scale-100 opacity-100" : "scale-125 opacity-0"
                   }`}
                 >

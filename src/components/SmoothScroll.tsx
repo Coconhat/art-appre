@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Lenis from "lenis";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { prefersReducedMotion, scroll } from "@/lib/scroll";
+import { store } from "@/lib/store";
 
 /** Weighted scrolling, so the piece is read at walking pace rather than flicked through. */
 export function SmoothScroll() {
@@ -18,7 +19,14 @@ export function SmoothScroll() {
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
 
+    // Held still until the 3D scenes are ready (see LoadGate).
+    if (!store.get().ready) lenis.stop();
+    const unsubscribe = store.subscribe(() => {
+      if (store.get().ready && lenis.isStopped) lenis.start();
+    });
+
     return () => {
+      unsubscribe();
       gsap.ticker.remove(tick);
       lenis.destroy();
       scroll.lenis = null;

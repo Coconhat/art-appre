@@ -1,4 +1,5 @@
 import type Lenis from "lenis";
+import { store } from "@/lib/store";
 
 /** The smooth-scroll instance, when one is running (it is skipped for reduced motion). */
 export const scroll: { lenis: Lenis | null } = { lenis: null };
@@ -13,7 +14,8 @@ export function prefersReducedMotion() {
 export function scrollToTarget(target: string | HTMLElement) {
   const el =
     typeof target === "string" ? document.querySelector<HTMLElement>(target) : target;
-  if (!el) return;
+  // Nothing moves until the 3D scenes are ready (see LoadGate).
+  if (!el || !store.get().ready) return;
   if (scroll.lenis) {
     scroll.lenis.scrollTo(el, { duration: 1.8 });
   } else {

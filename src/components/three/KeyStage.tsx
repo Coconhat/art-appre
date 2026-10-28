@@ -166,6 +166,14 @@ function makeDust(count: number) {
   return new THREE.Points(geometry, material);
 }
 
+let built: { parts: THREE.BufferGeometry[]; dust: THREE.Points } | null = null;
+
+/** Builds the key and its dust once, ahead of time (see LoadGate); later mounts reuse them. */
+export function prepare() {
+  built ??= { parts: buildKey(), dust: makeDust(420) };
+  return built;
+}
+
 function KeyScene({ progress }: Props) {
   const place = useRef<THREE.Group>(null);
   const showcase = useRef<THREE.Group>(null);
@@ -175,9 +183,8 @@ function KeyScene({ progress }: Props) {
   const clicked = useRef(false);
   const { viewport, camera } = useThree();
 
-  const parts = useMemo(() => buildKey(), []);
+  const { parts, dust } = prepare();
   const material = useMemo(() => makeRustMaterial(), []);
-  const dust = useMemo(() => makeDust(420), []);
   const target = useMemo(() => new THREE.Object3D(), []);
   const wide = viewport.aspect > 1.15;
 
@@ -187,9 +194,10 @@ function KeyScene({ progress }: Props) {
     const t = state.clock.elapsedTime;
 
     if (place.current) {
-      // The key gets the right half of a wide screen, the upper half of a phone.
+      // The key gets the right half of a wide screen, the upper half of a phone. A phone's
+      // width is all there is, so it is sized to still fit when the camera moves in at the end.
       const room = wide ? viewport.width * 0.5 : viewport.width;
-      place.current.scale.setScalar(Math.min(0.7, room / 4.7));
+      place.current.scale.setScalar(Math.min(0.7, room / (wide ? 4.7 : 5.6)));
       place.current.position.set(
         wide ? viewport.width * 0.25 : 0,
         (wide ? 0 : viewport.height * 0.2) + Math.sin(t * 0.7) * 0.04,

@@ -61,36 +61,45 @@ const fragment = /* glsl */ `
   }
 `;
 
+let field: THREE.BufferGeometry | null = null;
+
+/** Lays out every light once, ahead of time (see LoadGate); later mounts reuse the field. */
+export function prepare() {
+  field ??= buildField();
+  return field;
+}
+
+function buildField() {
+  const rand = mulberry32(74561);
+  const golden = Math.PI * (3 - Math.sqrt(5));
+  const positions = new Float32Array(TOTAL * 3);
+  const index = new Float32Array(TOTAL);
+  const randoms = new Float32Array(TOTAL);
+  const child = new Float32Array(TOTAL);
+  for (let i = 0; i < TOTAL; i++) {
+    // phyllotaxis: each new light takes the next place on a spiral, so the field grows evenly outward
+    const r = SPREAD * Math.sqrt(i + 0.5);
+    const a = i * golden;
+    positions[i * 3] = Math.cos(a) * r + (rand() - 0.5) * SPREAD * 0.4;
+    positions[i * 3 + 1] = (rand() - 0.5) * 0.04;
+    positions[i * 3 + 2] = Math.sin(a) * r + (rand() - 0.5) * SPREAD * 0.4;
+    index[i] = i;
+    randoms[i] = rand();
+    child[i] = i > 0 && rand() < CHILD_SHARE ? 1 : 0;
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  g.setAttribute("aIndex", new THREE.BufferAttribute(index, 1));
+  g.setAttribute("aRand", new THREE.BufferAttribute(randoms, 1));
+  g.setAttribute("aChild", new THREE.BufferAttribute(child, 1));
+  g.boundingSphere = new THREE.Sphere(new THREE.Vector3(), SPREAD * Math.sqrt(TOTAL) + 1);
+  return g;
+}
+
 function Lights({ progress }: Props) {
   const { camera, size } = useThree();
   const smooth = useRef(0);
-
-  const geometry = useMemo(() => {
-    const rand = mulberry32(74561);
-    const golden = Math.PI * (3 - Math.sqrt(5));
-    const positions = new Float32Array(TOTAL * 3);
-    const index = new Float32Array(TOTAL);
-    const randoms = new Float32Array(TOTAL);
-    const child = new Float32Array(TOTAL);
-    for (let i = 0; i < TOTAL; i++) {
-      // phyllotaxis: each new light takes the next place on a spiral, so the field grows evenly outward
-      const r = SPREAD * Math.sqrt(i + 0.5);
-      const a = i * golden;
-      positions[i * 3] = Math.cos(a) * r + (rand() - 0.5) * SPREAD * 0.4;
-      positions[i * 3 + 1] = (rand() - 0.5) * 0.04;
-      positions[i * 3 + 2] = Math.sin(a) * r + (rand() - 0.5) * SPREAD * 0.4;
-      index[i] = i;
-      randoms[i] = rand();
-      child[i] = i > 0 && rand() < CHILD_SHARE ? 1 : 0;
-    }
-    const g = new THREE.BufferGeometry();
-    g.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    g.setAttribute("aIndex", new THREE.BufferAttribute(index, 1));
-    g.setAttribute("aRand", new THREE.BufferAttribute(randoms, 1));
-    g.setAttribute("aChild", new THREE.BufferAttribute(child, 1));
-    g.boundingSphere = new THREE.Sphere(new THREE.Vector3(), SPREAD * Math.sqrt(TOTAL) + 1);
-    return g;
-  }, []);
+  const geometry = prepare();
 
   // Built here rather than as JSX so the uniforms updated each frame are the material's own.
   const material = useMemo(

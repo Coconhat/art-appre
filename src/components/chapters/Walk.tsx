@@ -56,8 +56,13 @@ export function Walk() {
     const io = new IntersectionObserver(([e]) => (active = e.isIntersecting));
     io.observe(section);
     // Screen-right is west here (the camera looks south), so the sign flips.
-    const onMove = (e: PointerEvent) => {
-      if (active) steer.current = -((e.clientX / window.innerWidth) - 0.5) * 2;
+    const steerTo = (x: number) => {
+      if (active) steer.current = -((x / window.innerWidth) - 0.5) * 2;
+    };
+    const onMove = (e: PointerEvent) => steerTo(e.clientX);
+    // On a phone the pointer stops reporting once a swipe scrolls, so the swipe itself steers.
+    const onTouch = (e: TouchEvent) => {
+      if (e.touches[0]) steerTo(e.touches[0].clientX);
     };
     const onKey = (e: KeyboardEvent) => {
       if (!active) return;
@@ -67,10 +72,12 @@ export function Walk() {
       e.preventDefault();
     };
     window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("touchmove", onTouch, { passive: true });
     window.addEventListener("keydown", onKey);
     return () => {
       io.disconnect();
       window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("touchmove", onTouch);
       window.removeEventListener("keydown", onKey);
       window.clearTimeout(backTimer.current);
     };
@@ -130,7 +137,12 @@ export function Walk() {
                   south.
                 </p>
                 <p className="t-small mt-3 italic">
-                  Scroll to walk. Move the pointer, or press the arrow keys, to choose your way.
+                  <span className="pointer-coarse:hidden">
+                    Scroll to walk. Move the pointer, or press the arrow keys, to choose your way.
+                  </span>
+                  <span className="hidden pointer-coarse:inline">
+                    Swipe up to walk. Swipe on the left or the right of the screen to choose your way.
+                  </span>
                 </p>
               </div>
               <p data-beat data-in="0.33" data-out="0.43" className="t-statement [grid-area:1/1]">

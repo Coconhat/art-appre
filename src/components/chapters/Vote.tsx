@@ -62,12 +62,12 @@ export function Vote() {
     <section id="boto" aria-labelledby="boto-title" className="relative bg-night">
       <div ref={ref} className="relative" style={{ height: "540svh" }}>
         <div className="stage">
-          <div className="frame grid h-full grid-cols-12 items-center gap-x-8 max-md:grid-rows-[1fr_auto] max-md:content-center max-md:gap-y-4 max-md:py-[9svh]">
+          <div className="frame relative h-full pt-14 md:grid md:grid-cols-12 md:items-center md:gap-x-8 md:pt-0">
             {/* the document */}
-            <figure className="relative col-span-12 md:order-2 md:col-span-7 md:col-start-6">
+            <figure className="relative m-0 md:order-2 md:col-span-7 md:col-start-6">
               <div
                 aria-label="Reconstruction of the roll-call vote on UN General Assembly Resolution 181, 29 November 1947"
-                className="tex-paper relative mx-auto w-full max-w-[44rem] -rotate-[1.2deg] px-[5%] py-[4.5%] font-type text-[#2b2925] shadow-[0_30px_60px_-30px_rgba(0,0,0,0.8)] [font-size:clamp(8.5px,0.95vw,13.5px)] leading-[1.45]"
+                className="tex-paper relative mx-auto w-full max-w-[44rem] -rotate-[1.2deg] px-[5%] py-[4.5%] font-type text-[#2b2925] shadow-[0_30px_60px_-30px_rgba(0,0,0,0.8)] [font-size:clamp(8.5px,0.95vw,13.5px)] leading-[1.35] md:leading-[1.45]"
               >
                 <div className="text-center uppercase tracking-[0.06em]">
                   <p className="font-bold">United Nations</p>
@@ -131,43 +131,43 @@ export function Vote() {
                   The resolution is adopted.
                 </p>
               </div>
-              <figcaption className="t-small mx-auto mt-4 max-w-[44rem] text-paper-dim">
+              <figcaption className="t-small mx-auto mt-3 max-w-[44rem] text-paper-dim md:mt-4">
                 A reconstruction of the roll call, members in alphabetical order.
               </figcaption>
             </figure>
 
-            {/* the words */}
-            <div className="relative col-span-12 h-[min(40svh,24rem)] md:order-1 md:col-span-5 md:h-[min(56svh,30rem)]">
-              <div id="boto-title" className="absolute inset-x-0 top-0">
+            {/* the words: on phones they sit over the foot of the document, on a band of night */}
+            <div className="beats absolute inset-x-[clamp(1rem,4.5vw,3.5rem)] bottom-[5svh] md:relative md:inset-auto md:order-1 md:col-span-5 md:h-[min(56svh,30rem)]">
+              <div id="boto-title">
                 <ChapterTitle id="boto" />
               </div>
-              <p data-beat data-in="0.07" data-out="0.17" className="t-headline italic absolute inset-x-0 top-0">
+              <p data-beat data-in="0.07" data-out="0.17" className="t-headline italic over-scene">
                 The road to 1948 began a year earlier, with a vote.
               </p>
-              <p data-beat data-in="0.19" data-out="0.3" className="t-headline absolute inset-x-0 top-0">
+              <p data-beat data-in="0.19" data-out="0.3" className="t-headline over-scene">
                 One of the hands raised was ours.
               </p>
-              <p data-beat data-in="0.32" data-out="0.42" className="t-statement absolute inset-x-0 top-0">
+              <p data-beat data-in="0.32" data-out="0.42" className="t-statement over-scene">
                 29 November 1947. The United Nations General Assembly votes on a plan to divide
                 Palestine into a Jewish state and an Arab state.
               </p>
-              <p data-beat data-in="0.44" data-out="0.53" className="t-statement absolute inset-x-0 top-0">
+              <p data-beat data-in="0.44" data-out="0.53" className="t-statement over-scene">
                 About two in three people living there were Palestinian Arabs. The plan gave the Jewish
                 state 56% of the land.
               </p>
-              <p data-beat data-in="0.55" data-out="0.64" className="t-statement absolute inset-x-0 top-0">
+              <p data-beat data-in="0.55" data-out="0.64" className="t-statement over-scene">
                 Three days earlier, the Philippine delegate, Carlos P. Romulo, had told the Assembly we
                 could not support the “political disunion and territorial dismemberment of Palestine.”
               </p>
-              <p data-beat data-in="0.66" data-out="0.76" className="t-headline absolute inset-x-0 top-0">
+              <p data-beat data-in="0.66" data-out="0.76" className="t-headline over-scene">
                 On the day of the vote, the Philippines said yes.
               </p>
-              <p data-beat data-in="0.78" data-out="0.88" className="t-statement absolute inset-x-0 top-0">
+              <p data-beat data-in="0.78" data-out="0.88" className="t-statement over-scene">
                 It needed two-thirds to pass. It passed {FACTS.vote1947.yes} to {FACTS.vote1947.no}, and
                 ours was one of the {FACTS.vote1947.yes}. Records from the time describe heavy American
                 pressure on undecided governments, ours among them.
               </p>
-              <p data-beat data-in="0.9" className="t-statement absolute inset-x-0 top-0">
+              <p data-beat data-in="0.9" className="t-statement over-scene">
                 We had been independent for sixteen months. A nation just freed from its colonizer helped
                 divide someone else&apos;s home.
               </p>

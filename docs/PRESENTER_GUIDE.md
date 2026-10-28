@@ -13,7 +13,8 @@ or about a minute per part if you narrate. The full meaning of every element is 
    They were checked on 27–28 October 2026. Casualty figures change daily.
 4. Use a laptop plugged in, Chrome or Edge, full screen (F11). Turn on sound (top right)
    if the room has speakers; it is synthesised live, there are no audio files.
-5. Rehearse once. The 3D scenes load as you approach them; the first pass warms them up.
+5. Rehearse once. On opening, the page builds every 3D scene before it lets you scroll (the line
+   under the title counts them in); give it a few seconds on a slow connection.
 
 ## Controls
 
@@ -22,7 +23,7 @@ or about a minute per part if you narrate. The full meaning of every element is 
 | Next / previous screen | Scroll, or a presenter clicker (Page Down / Page Up) |
 | Jump to next / previous part | `]` and `[` |
 | Jump to any part | The list on the right edge (wide screens) |
-| Steer the child in *Lakad* | Move the mouse, or ← → |
+| Steer the child in *Lakad* | Move the mouse, or ← →; on a phone, swipe on the left or right side |
 | Light candles in *Bilang* | Press and hold the button, or hold Space |
 | Fly the kite in *Kalayaan* | Move the mouse, or the arrow keys; type a name and press *Let it fly* |
 

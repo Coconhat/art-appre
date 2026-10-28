@@ -270,6 +270,25 @@ function makeWadi() {
   return geometry;
 }
 
+function build() {
+  return {
+    town: makeTown(),
+    tents: makeTents(),
+    crowd: makeCrowd(),
+    ground: makeGround(),
+    fence: makeFence(),
+    wadi: makeWadi(),
+  };
+}
+
+let built: ReturnType<typeof build> | null = null;
+
+/** Lays out the strip once, ahead of time (see LoadGate); later mounts reuse it. */
+export function prepare() {
+  built ??= build();
+  return built;
+}
+
 function WalkScene({ progress, steer, labels }: SceneProps) {
   const { camera, viewport, size, gl } = useThree();
   const smooth = useRef(0);
@@ -283,17 +302,13 @@ function WalkScene({ progress, steer, labels }: SceneProps) {
   const travelled = useRef(0);
   const look = useRef(new THREE.Vector3(40, 0, 120));
 
-  const town = useMemo(() => makeTown(), []);
-  const tents = useMemo(() => makeTents(), []);
-  const crowd = useMemo(() => makeCrowd(), []);
-  const ground = useMemo(() => makeGround(), []);
-  const fence = useMemo(() => makeFence(), []);
-  const wadi = useMemo(() => makeWadi(), []);
+  const { town, tents, crowd, ground, fence, wadi } = prepare();
   const sunTarget = useMemo(() => new THREE.Object3D(), []);
   const wallLength = Math.hypot(SOUTH_B.x - SOUTH_A.x, SOUTH_B.z - SOUTH_A.z);
   const wallAngle = -Math.atan2(SOUTH_B.z - SOUTH_A.z, SOUTH_B.x - SOUTH_A.x);
   const wide = size.width >= 768;
 
+  // Frees the GPU copies on unmount; the geometry itself is kept for the next visit.
   useEffect(() => () => {
     town.standing.geometry.dispose();
     tents.geometry.dispose();

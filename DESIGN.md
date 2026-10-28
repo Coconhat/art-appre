@@ -36,9 +36,11 @@ The question *Gaano kalayo?* (How far?) is asked on the first screen and answere
 
 Newsreader (variable, optical sizes) for everything Latin; Amiri for Arabic; Courier Prime only
 inside the 1947 roll-call replica. Three sizes do the work: `.t-display`, `.t-headline`/`.t-statement`,
-`.t-body`.
+`.t-body`. Each is sized for a phone first (16px body, 20px statement) and grows with the screen.
 
 ## Layout
 
 One outer margin (`.frame`). Pinned stages (`.stage`, 100svh, sticky) inside tall sections; text
 on the left half on wide screens, at the bottom on phones (`.over-scene` gives it a solid band).
+Lines that take turns share one grid cell (`.beats`), so the block is as tall as its longest line
+and never runs off a phone screen. Scrolling is held until every 3D scene is built (`LoadGate`).

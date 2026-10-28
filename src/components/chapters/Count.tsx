@@ -36,35 +36,35 @@ export function Count() {
               <div id="bilang-title">
                 <ChapterTitle id="bilang" out={0.05} />
               </div>
-              <div className="relative mt-4 w-full max-w-[34rem]">
-                <p data-beat data-in="0.07" data-out="0.15" className="t-statement over-scene absolute inset-x-0 top-0">
+              <div className="beats beats-top mt-4 w-full max-w-[34rem]">
+                <p data-beat data-in="0.07" data-out="0.15" className="t-statement over-scene">
                   One light. One person. A name, a voice, a favourite food.
                 </p>
-                <p data-beat data-in="0.2" data-out="0.27" className="t-statement over-scene absolute inset-x-0 top-0">
+                <p data-beat data-in="0.2" data-out="0.27" className="t-statement over-scene">
                   Ten. Some families lost this many in a single night.
                 </p>
-                <p data-beat data-in="0.32" data-out="0.39" className="t-statement over-scene absolute inset-x-0 top-0">
+                <p data-beat data-in="0.32" data-out="0.39" className="t-statement over-scene">
                   One hundred. Everyone on your street.
                 </p>
-                <p data-beat data-in="0.44" data-out="0.51" className="t-statement over-scene absolute inset-x-0 top-0">
+                <p data-beat data-in="0.44" data-out="0.51" className="t-statement over-scene">
                   One thousand. A small barangay.
                 </p>
-                <p data-beat data-in="0.56" data-out="0.63" className="t-statement over-scene absolute inset-x-0 top-0">
+                <p data-beat data-in="0.56" data-out="0.63" className="t-statement over-scene">
                   Ten thousand. A town.
                 </p>
-                <p data-beat data-in="0.68" data-out="0.74" className="t-statement over-scene absolute inset-x-0 top-0">
+                <p data-beat data-in="0.68" data-out="0.74" className="t-statement over-scene">
                   People killed in Gaza since October 2023, according to its Ministry of Health, as of{" "}
                   {FACTS.killedAsOf}.
                 </p>
-                <p data-beat data-in="0.76" data-out="0.84" className="t-statement over-scene absolute inset-x-0 top-0">
+                <p data-beat data-in="0.76" data-out="0.84" className="t-statement over-scene">
                   The smaller lights are children. More than {fmt(FACTS.childrenKilled)} of them.
                 </p>
-                <p data-beat data-in="0.86" data-out="0.92" className="t-statement over-scene absolute inset-x-0 top-0">
+                <p data-beat data-in="0.86" data-out="0.92" className="t-statement over-scene">
                   And these are only the dead who were counted. Thousands more lie under the rubble. A
                   study in The Lancet estimated the real toll was about {FACTS.lancetUndercountPct}% higher
                   than the official count.
                 </p>
-                <div data-beat data-in="0.93" className="pointer-events-auto absolute inset-x-0 top-0">
+                <div data-beat data-in="0.93" className="pointer-events-auto">
                   <CandleHold />
                   <p className="t-body mt-5 max-w-[34ch] text-paper-dim">
                     Lighting one for each of them, one every second, would take you {hours} hours and{" "}
@@ -126,7 +126,9 @@ function CandleHold() {
           if (e.key === " " || e.key === "Enter") stop();
         }}
         onBlur={stop}
-        className={`t-statement cursor-pointer select-none border-2 border-lamp px-6 py-3 text-left transition duration-300 ${
+        // a long press on a phone would otherwise open the copy menu or start a scroll
+        onContextMenu={(e) => e.preventDefault()}
+        className={`t-statement cursor-pointer touch-none select-none border-2 [-webkit-touch-callout:none] border-lamp px-6 py-3 text-left transition duration-300 ${
           holding ? "bg-lamp text-night" : "bg-transparent text-lamp hover:bg-lamp/10"
         }`}
       >

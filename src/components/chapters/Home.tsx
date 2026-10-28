@@ -46,21 +46,21 @@ export function Home() {
             <div id="tahanan-title">
               <ChapterTitle id="tahanan" />
             </div>
-            <div className="relative mt-2 h-[min(46svh,26rem)] w-full max-w-[52rem] md:max-w-[50%]">
-              <p data-beat data-in="0.09" data-out="0.24" className="t-headline italic absolute inset-x-0 top-0">
+            <div className="beats mt-2 w-full max-w-[52rem] md:h-[min(46svh,26rem)] md:max-w-[50%]">
+              <p data-beat data-in="0.09" data-out="0.24" className="t-headline italic">
                 Think of your home.
               </p>
-              <p data-beat data-in="0.26" data-out="0.42" className="t-statement measure over-scene absolute inset-x-0 top-0">
+              <p data-beat data-in="0.26" data-out="0.42" className="t-statement measure over-scene">
                 The creak of the gate. Rice on the stove. The corner where you sleep, the people asleep
                 beside you.
               </p>
-              <p data-beat data-in="0.44" data-out="0.58" className="t-headline italic absolute inset-x-0 top-0">
+              <p data-beat data-in="0.44" data-out="0.58" className="t-headline italic">
                 Now someone is at the door.
               </p>
-              <p data-beat data-in="0.6" data-out="0.74" className="t-statement measure over-scene absolute inset-x-0 top-0">
+              <p data-beat data-in="0.6" data-out="0.74" className="t-statement measure over-scene">
                 You have one hour to leave. Nobody can tell you when you will be allowed back.
               </p>
-              <p data-beat data-in="0.77" className="t-display italic absolute inset-x-0 top-0">
+              <p data-beat data-in="0.77" className="t-display italic">
                 What do you carry?
               </p>
             </div>

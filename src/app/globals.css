@@ -44,19 +44,32 @@ html {
   color: var(--color-paper);
   scrollbar-color: color-mix(in oklab, var(--color-paper) 28%, transparent) transparent;
   scrollbar-width: thin;
+  scrollbar-gutter: stable;
   -webkit-text-size-adjust: 100%;
+  /* Set on the root as well as on body: on body alone it is handed to the viewport, and a phone
+     then widens the page to fit anything that pokes out, so the whole piece wobbles sideways. */
+  overflow-x: clip;
 }
 
 body {
   margin: 0;
   font-family: var(--font-serif);
   font-optical-sizing: auto;
-  font-size: clamp(1.0625rem, 0.96rem + 0.32vw, 1.25rem);
+  font-size: clamp(1rem, 0.9rem + 0.36vw, 1.25rem);
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
   font-variant-numeric: oldstyle-nums proportional-nums;
+}
+
+/* Until the 3D scenes are built the page holds still (see LoadGate); the first screen needs none. */
+html.loading {
+  overflow: hidden;
+}
+
+html.loading body {
+  touch-action: none;
 }
 
 ::selection {
@@ -85,9 +98,10 @@ body {
   }
 }
 
-/* Type scale: one very large size, one statement size, one text size. */
+/* Type scale: one very large size, one statement size, one text size.
+   Each minimum is the size on a 360–390px phone; the sizes grow with the screen from there. */
 .t-display {
-  font-size: clamp(3.25rem, 0.9rem + 9.2vw, 10rem);
+  font-size: clamp(2.75rem, 0.55rem + 9.7vw, 10rem);
   line-height: 0.9;
   letter-spacing: -0.035em;
   font-variation-settings: "opsz" 72;
@@ -96,7 +110,7 @@ body {
 }
 
 .t-headline {
-  font-size: clamp(2.2rem, 1rem + 3.9vw, 5rem);
+  font-size: clamp(1.875rem, 0.9rem + 4vw, 5rem);
   line-height: 0.98;
   letter-spacing: -0.025em;
   font-variation-settings: "opsz" 60;
@@ -105,8 +119,8 @@ body {
 }
 
 .t-statement {
-  font-size: clamp(1.45rem, 1.05rem + 1.15vw, 2.25rem);
-  line-height: 1.2;
+  font-size: clamp(1.25rem, 0.95rem + 1.25vw, 2.25rem);
+  line-height: 1.28;
   letter-spacing: -0.012em;
   font-variation-settings: "opsz" 32;
   text-wrap: pretty;
@@ -119,8 +133,18 @@ body {
 }
 
 .t-small {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   line-height: 1.45;
+}
+
+@media (min-width: 48rem) {
+  .t-statement {
+    line-height: 1.2;
+  }
+
+  .t-small {
+    font-size: 0.9rem;
+  }
 }
 
 .tabular {
@@ -148,6 +172,30 @@ body {
 
 .measure-wide {
   max-width: 60ch;
+}
+
+/*
+  Lines that take turns in one place share a single grid cell, so the block is as tall as its
+  longest line and nothing runs off the screen. On phones they sit on the block's bottom edge,
+  under the scene; from tablets up, on its top edge. .beats-top keeps them on top everywhere.
+*/
+.beats {
+  display: grid;
+}
+
+.beats > * {
+  grid-area: 1 / 1;
+  align-self: end;
+}
+
+.beats-top > * {
+  align-self: start;
+}
+
+@media (min-width: 48rem) {
+  .beats > * {
+    align-self: start;
+  }
 }
 
 /* Scroll-revealed text starts hidden only when scripts are running. */

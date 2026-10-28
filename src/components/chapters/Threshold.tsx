@@ -1,4 +1,5 @@
 import { DustBeam } from "@/components/art/DustBeam";
+import { LoadGate } from "@/components/LoadGate";
 
 /**
  * The first screen asks the question and nothing else. It does not say where, or who.
@@ -23,12 +24,10 @@ export function Threshold() {
         >
           Gaano kalayo?
         </h1>
-        <p className="t-statement measure mt-7 animate-[rise_2.4s_var(--ease-out-expo)_0.75s_both]">
+        <p className="t-statement measure mt-5 md:mt-7 animate-[rise_2.4s_var(--ease-out-expo)_0.75s_both]">
           How far is far? A work of art about a real place, in ten parts.
         </p>
-        <p className="t-small mt-4 text-paper-dim animate-[rise_2.4s_var(--ease-out-expo)_1.1s_both]">
-          Scroll slowly. Sound is optional, top right.
-        </p>
+        <LoadGate className="mt-4 animate-[rise_2.4s_var(--ease-out-expo)_1.1s_both]" />
       </div>
 
       <div
