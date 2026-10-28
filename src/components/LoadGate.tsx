@@ -30,10 +30,13 @@ export function LoadGate({ className = "" }: { className?: string }) {
 
   useEffect(() => {
     let live = true;
+    const root = document.documentElement;
+    // Coming from another page skips the layout's inline script, so the hold starts here as well.
+    if (!store.get().ready) root.classList.add("loading");
     const release = () => {
       if (!live || store.get().ready) return;
       store.set({ ready: true });
-      document.documentElement.classList.remove("loading");
+      root.classList.remove("loading");
       ScrollTrigger.refresh();
     };
     const timer = window.setTimeout(release, GIVE_UP_MS);
@@ -59,6 +62,8 @@ export function LoadGate({ className = "" }: { className?: string }) {
 
     return () => {
       live = false;
+      // Leaving before the scenes are ready must not hold the next page still.
+      root.classList.remove("loading");
       window.clearTimeout(timer);
       window.removeEventListener("scroll", onScroll);
     };

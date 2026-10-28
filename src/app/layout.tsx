@@ -52,12 +52,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <head>
         {/* Marks that scripts run, so scroll-revealed text only starts hidden when it can be
-            revealed, and holds the page still until the 3D scenes are ready (LoadGate lets go;
-            the timer is a safety net in case it never runs). */}
+            revealed. On the piece itself, the only page with 3D scenes, it also holds the page
+            still until they are ready (LoadGate lets go; the timer is a safety net in case it
+            never runs). Other pages, like the artist statement, have nothing to wait for. */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "var d=document.documentElement;d.classList.add('js','loading');setTimeout(function(){d.classList.remove('loading')},20000)",
+              "var d=document.documentElement;d.classList.add('js');if(location.pathname==='/'){d.classList.add('loading');setTimeout(function(){d.classList.remove('loading')},20000)}",
           }}
         />
       </head>
