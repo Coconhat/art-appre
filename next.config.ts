@@ -1,9 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  // Every page is prerendered and nothing needs a server, so the site builds to plain files
+  // in out/. Any static host can serve it, and a deploy carries no serverless functions.
+  // (Cache Components / partial prerendering cannot run in export mode, so they stay off.)
+  output: "export",
   turbopack: {
     rules: {
       "*.css": {
