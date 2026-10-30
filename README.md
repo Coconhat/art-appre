@@ -29,7 +29,7 @@ npm run build && npm run start   # for presenting (smoother)
 | Pader | `Wall.tsx` | horizontal scroll, SVG spray-paint filter |
 | Lakad | `Walk.tsx`, `three/WalkStage.tsx`, `three/walkData.ts` | instanced 3D Gaza Strip, steerable walk |
 | Bilang | `Count.tsx`, `three/LightsStage.tsx` | 74,561-point shader field |
-| Sining | `Gallery.tsx`, `art/*` | procedural tatreez, SVG homages |
+| Sining | `Gallery.tsx`, `art/*`, `public/art/*` | two real public-domain works (Met dress, Luna's Spoliarium), SVG homages for the rest |
 | Sinulid | `Thread.tsx`, `three/GlobeStage.tsx` | cross-stitch globe, running-stitch threads |
 | Halaga | `Price.tsx`, `art/Ripples.tsx`, `art/PriceBoard.tsx` | canvas ripples, SVG seven-segment fuel price board |
 | Kalayaan | `Freedom.tsx`, `art/KiteSky.tsx` | flag assembly, kite physics |

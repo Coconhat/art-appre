@@ -3,16 +3,18 @@
 import { useRef, type ReactNode } from "react";
 import { CHAPTERS } from "@/content/chapters";
 import { useChapter } from "@/hooks/useChapter";
-import { Tatreez, STITCH_COUNT } from "@/components/art/Tatreez";
 import { ChildFromBehind } from "@/components/art/ChildFromBehind";
 import { Watermelon } from "@/components/art/Watermelon";
 import { Kite } from "@/components/art/Kite";
-import { fmt } from "@/content/facts";
 
 /**
  * Sining (the art). A gallery wall of black linen, the cloth of a Palestinian thob.
  * Five works that refused to disappear, each with a museum label, and one Filipino
  * painting that bore witness to our own colonization.
+ *
+ * Two are shown as they are, because they are free to show: a 19th-century embroidered dress
+ * (The Metropolitan Museum of Art, public domain) and Juan Luna's Spoliarium (1884, public
+ * domain). The others are still in copyright, or are a poem, so they appear as homages.
  */
 export function Gallery() {
   const ref = useRef<HTMLDivElement>(null);
@@ -20,16 +22,13 @@ export function Gallery() {
   const chapter = CHAPTERS.find((c) => c.id === "sining")!;
 
   useChapter(ref, {
-    build: (tl, section) => {
+    build: (tl) => {
       tl.fromTo(
         track.current,
         { x: 0 },
         { x: () => -((track.current?.scrollWidth ?? 0) - window.innerWidth), duration: 0.96 },
         0.02,
       );
-      // the tatreez is stitched row by row while it passes
-      const rows = section.querySelectorAll("[data-stitch-row]");
-      tl.fromTo(rows, { opacity: 0 }, { opacity: 1, duration: 0.004, stagger: 0.17 / rows.length }, 0.03);
     },
   });
 
@@ -55,10 +54,17 @@ export function Gallery() {
             </div>
 
             <Exhibit
-              art={<Tatreez className="h-full w-auto" />}
-              artLabel={`A tatreez panel of ${fmt(STITCH_COUNT)} cross-stitches`}
+              art={
+                <ArtImage
+                  src="/art/ramallah-dress.jpg"
+                  width={1200}
+                  height={1421}
+                  className="h-full w-auto max-w-full"
+                />
+              }
+              artLabel="A 19th-century Palestinian woman's dress, scarf and headdress from Ramallah, embroidered in red thread on undyed linen, on a faceless mannequin"
               title="Tatreez"
-              meta="Palestinian women, for generations. Thread on linen."
+              meta="Village woman's dress, scarf and headdress, Ramallah, 19th century. Linen, cotton, metal; embroidered. The Metropolitan Museum of Art, New York, Gift of Irene Lewisohn and Alice Lewisohn Crowley, 1939. Public domain."
             >
               <p>
                 Every village had its own stitches; a dress could tell you where a woman came from.
@@ -66,8 +72,8 @@ export function Gallery() {
                 tatreez as cultural heritage of humanity.
               </p>
               <p className="t-small mt-3 text-paper-dim">
-                This panel: {fmt(STITCH_COUNT)} stitches drawn in code after traditional motifs, the
-                eight-pointed star, the cypress and the triangle.
+                Look at the borders: red thread on undyed linen, every band a row of small crosses,
+                sewn by hand more than a century ago.
               </p>
             </Exhibit>
 
@@ -127,10 +133,17 @@ export function Gallery() {
             </Exhibit>
 
             <Exhibit
-              art={<Spoliarium />}
-              artLabel="An empty frame in the proportions of Juan Luna's Spoliarium, with a dark red streak dragged across it"
+              art={
+                <ArtImage
+                  src="/art/spoliarium.jpg"
+                  width={2000}
+                  height={1078}
+                  className="max-md:h-auto max-md:w-full md:h-full md:w-auto md:max-w-full"
+                />
+              }
+              artLabel="Juan Luna's Spoliarium: in a dim Roman arena, slaves drag the body of a fallen gladiator by a chain while onlookers crowd the left and a woman kneels at the right"
               title="Spoliarium"
-              meta="Juan Luna, 1884. Oil on canvas, 4.22 × 7.675 m. National Museum of Fine Arts, Manila."
+              meta="Juan Luna, 1884. Oil on canvas, 4.22 × 7.675 m. National Museum of Fine Arts, Manila. Public domain."
               wide
             >
               <p>
@@ -187,30 +200,27 @@ function Exhibit({
   );
 }
 
-/** Luna's canvas in its proportions (4.22 × 7.675 m), with one dragged mark across it. */
-function Spoliarium() {
+/** A real work, shown whole. The size is given so the track's width is known before it loads. */
+function ArtImage({
+  src,
+  width,
+  height,
+  className,
+}: {
+  src: string;
+  width: number;
+  height: number;
+  className: string;
+}) {
   return (
-    <div className="h-full max-w-full" style={{ aspectRatio: "7.675 / 4.22" }}>
-      <div className="relative h-full w-full border-[clamp(8px,1.2vw,16px)] border-[#6b5532] bg-[#17110e] shadow-[inset_0_0_0_2px_#a88a52]">
-        <svg viewBox="0 0 767 422" preserveAspectRatio="none" className="absolute inset-0 h-full w-full" aria-hidden>
-          <defs>
-            <filter id="drag" x="-5%" y="-30%" width="110%" height="160%">
-              <feTurbulence type="fractalNoise" baseFrequency="0.02 0.6" numOctaves="3" seed="4" />
-              <feDisplacementMap in="SourceGraphic" scale="18" />
-            </filter>
-          </defs>
-          <path
-            d="M120 300 C 260 296, 420 286, 560 258 C 610 248, 650 236, 700 210"
-            stroke="#5e1a14"
-            strokeWidth="26"
-            strokeLinecap="round"
-            fill="none"
-            filter="url(#drag)"
-            opacity="0.9"
-          />
-          <path d="M80 304 C 96 300, 110 300, 124 300" stroke="#5e1a14" strokeWidth="34" strokeLinecap="round" fill="none" filter="url(#drag)" />
-        </svg>
-      </div>
-    </div>
+    // eslint-disable-next-line @next/next/no-img-element -- static export: nothing to optimise on a server
+    <img
+      src={src}
+      width={width}
+      height={height}
+      alt=""
+      decoding="async"
+      className={`block object-contain shadow-[0_28px_60px_-28px_rgba(0,0,0,0.9)] ${className}`}
+    />
   );
 }

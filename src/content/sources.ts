@@ -149,6 +149,16 @@ export const SOURCES: { chapter: string; items: Source[] }[] = [
         source: "Spoliarium",
         url: "https://en.wikipedia.org/wiki/Spoliarium",
       },
+      {
+        claim: "Image of Spoliarium shown in the gallery: public domain (Juan Luna died in 1899).",
+        source: "Wikimedia Commons, File:Spoliarium.jpg",
+        url: "https://commons.wikimedia.org/wiki/File:Spoliarium.jpg",
+      },
+      {
+        claim: "Village woman's dress, scarf and headdress from Ramallah, 19th century (C.I.39.91.18a–c), The Metropolitan Museum of Art; public domain, CC0. Image shown in the gallery.",
+        source: "The Metropolitan Museum of Art",
+        url: "https://www.metmuseum.org/art/collection/search/82693",
+      },
     ],
   },
   {
