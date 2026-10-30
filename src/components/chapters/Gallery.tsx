@@ -3,8 +3,6 @@
 import { useRef, type ReactNode } from "react";
 import { CHAPTERS } from "@/content/chapters";
 import { useChapter } from "@/hooks/useChapter";
-import { ChildFromBehind } from "@/components/art/ChildFromBehind";
-import { Watermelon } from "@/components/art/Watermelon";
 import { Kite } from "@/components/art/Kite";
 
 /**
@@ -12,9 +10,10 @@ import { Kite } from "@/components/art/Kite";
  * Five works that refused to disappear, each with a museum label, and one Filipino
  * painting that bore witness to our own colonization.
  *
- * Two are shown as they are, because they are free to show: a 19th-century embroidered dress
- * (The Metropolitan Museum of Art, public domain) and Juan Luna's Spoliarium (1884, public
- * domain). The others are still in copyright, or are a poem, so they appear as homages.
+ * Four are shown as they are, each with its credit: a 19th-century embroidered dress (The
+ * Metropolitan Museum of Art, public domain), Handala on a wall in Bilin and a mural by Mansour
+ * and Anani (both photographs released by their photographers), and Juan Luna's Spoliarium
+ * (1884, public domain). The kite stays a drawing, because its work is a poem.
  */
 export function Gallery() {
   const ref = useRef<HTMLDivElement>(null);
@@ -59,7 +58,6 @@ export function Gallery() {
                   src="/art/ramallah-dress.jpg"
                   width={1200}
                   height={1421}
-                  className="h-full w-auto max-w-full"
                 />
               }
               artLabel="A 19th-century Palestinian woman's dress, scarf and headdress from Ramallah, embroidered in red thread on undyed linen, on a faceless mannequin"
@@ -78,10 +76,17 @@ export function Gallery() {
             </Exhibit>
 
             <Exhibit
-              art={<ChildFromBehind className="h-full w-auto text-paper" />}
-              artLabel="Ink drawing of a barefoot child seen from behind, hands clasped at his back"
+              art={
+                <ArtImage
+                  src="/art/handala-bilin.jpg"
+                  width={1600}
+                  height={923}
+                />
+              }
+              artLabel="Handala, a barefoot child seen from behind with his hands clasped at his back, painted in black outline on a white wall under a line of barbed wire that grows a sprig of wheat"
               title="Handala"
-              meta="Naji al-Ali, from 1969. Ink, in daily newspaper cartoons."
+              meta="Created by Naji al-Ali, from 1969, in newspaper cartoons. Shown: Handala painted on a wall in Bilin, in the West Bank, photographed in 2011 by Palobserver. Public domain photograph."
+              wide
             >
               <p>
                 A ten-year-old refugee boy, barefoot, hands clasped behind his back, his face turned
@@ -89,26 +94,32 @@ export function Gallery() {
                 was shot in London in 1987. Handala has not turned around.
               </p>
               <p className="t-small mt-3 text-paper-dim">
-                This drawing is an homage to the pose, made for this piece. The child you walked with in
-                Gaza wore it too.
+                He is painted on walls across the West Bank and far beyond it. The child you walked
+                with in Gaza stood in the same pose.
               </p>
             </Exhibit>
 
             <Exhibit
               art={
-                <div className="flex h-full items-center">
-                  <Watermelon className="w-full" />
-                </div>
+                <ArtImage
+                  src="/art/mansour-anani-mural.jpg"
+                  width={900}
+                  height={1832}
+                />
               }
-              artLabel="A slice of watermelon, drained of colour"
+              artLabel="A carved stone mural on a wall: a woman in an embroidered dress lifts a child toward a sun"
               title="Not even a watermelon"
-              meta="Sliman Mansour, Nabil Anani and Issam Badr. Gallery 79, Ramallah, 1980."
+              meta="Gallery 79, Ramallah, 1980: Sliman Mansour, Nabil Anani and Issam Badr. Shown: a mural by Mansour and Anani on the wall of Inash al-Usra, al-Bireh, photographed in 2014 by Amer Shomali. CC0 photograph."
             >
               <p>
                 The Israeli army shut their exhibition within hours. The artists were told that red,
                 green, black and white together, the colours of the Palestinian flag, were forbidden,
                 and that even a painted watermelon would be confiscated. Sliman Mansour died in August
                 2026, at 79.
+              </p>
+              <p className="t-small mt-3 text-paper-dim">
+                This is not the banned exhibition. It is a wall by two of the same artists, who kept
+                making art.
               </p>
               <p className="mt-3 italic">
                 Have you noticed? This piece has never shown you those four colours together. Not yet.
@@ -138,7 +149,6 @@ export function Gallery() {
                   src="/art/spoliarium.jpg"
                   width={2000}
                   height={1078}
-                  className="max-md:h-auto max-md:w-full md:h-full md:w-auto md:max-w-full"
                 />
               }
               artLabel="Juan Luna's Spoliarium: in a dim Roman arena, slaves drag the body of a fallen gladiator by a chain while onlookers crowd the left and a woman kneels at the right"
@@ -200,18 +210,11 @@ function Exhibit({
   );
 }
 
-/** A real work, shown whole. The size is given so the track's width is known before it loads. */
-function ArtImage({
-  src,
-  width,
-  height,
-  className,
-}: {
-  src: string;
-  width: number;
-  height: number;
-  className: string;
-}) {
+/**
+ * A real work, shown whole and never squeezed: it takes the room it is given, keeping its shape.
+ * The size is given so the track's width is known before it loads.
+ */
+function ArtImage({ src, width, height }: { src: string; width: number; height: number }) {
   return (
     // eslint-disable-next-line @next/next/no-img-element -- static export: nothing to optimise on a server
     <img
@@ -220,7 +223,7 @@ function ArtImage({
       height={height}
       alt=""
       decoding="async"
-      className={`block object-contain shadow-[0_28px_60px_-28px_rgba(0,0,0,0.9)] ${className}`}
+      className="block h-auto max-h-full w-auto max-w-full shadow-[0_28px_60px_-28px_rgba(0,0,0,0.9)]"
     />
   );
 }

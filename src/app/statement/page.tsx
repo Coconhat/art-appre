@@ -83,7 +83,7 @@ const PARTS: { id: string; does: string; means: string[] }[] = [
     means: [
       "The walls are the black linen of a Palestinian thob, the dress that tatreez is stitched on.",
       "The tatreez is a real 19th-century dress from Ramallah, shown whole: red thread on undyed linen, borders of small crosses and triangles stitched by hand. Spoliarium is the real painting too. Both are in the public domain.",
-      "The watermelon is grey, and the label asks: have you noticed this work has never shown red, green, black and white together? In 1980 those colours could close an exhibition.",
+      "Handala is shown as people meet him: painted on a wall, in the West Bank, with his back to us. The watermelon story is told with a real mural by two of the Gallery 79 artists, in grey stone, and the label asks: have you noticed this work has never shown red, green, black and white together? In 1980 those colours could close an exhibition.",
       "Spoliarium connects the gallery to us: Filipino art bore witness to our own colonization.",
     ],
   },
@@ -161,11 +161,10 @@ export default function Statement() {
             </p>
             <p>
               Almost everything on screen is made for the piece, in code: the key, the strip of Gaza,
-              the {fmt(FACTS.killed)} lights, the globe, the sound. The gallery is the exception: two
-              works are shown as they are, because they are in the public domain. No photographs of
-              real victims are used; the work shows people as light, as figures, and as names, without
-              using anyone&apos;s image without consent. Works that are still in copyright are
-              honoured in homage, not copied.
+              the {fmt(FACTS.killed)} lights, the globe, the sound. The gallery is the exception: its
+              works are shown as they are, each with its credit. No photographs of real victims are
+              used; the work shows people as light, as figures, and as names, without using
+              anyone&apos;s image without consent.
             </p>
           </div>
         </section>
@@ -289,12 +288,14 @@ export default function Statement() {
               board in SVG, segment by segment. The sound is generated with the Web Audio API.
             </p>
             <p>
-              Shown as they are: the Ramallah dress (19th century, The Metropolitan Museum of Art,
-              public domain) and Juan Luna&apos;s Spoliarium (1884, public domain), both from
-              Wikimedia Commons. Homages: Handala is by Naji al-Ali, whose work is still in copyright,
-              so the child here is a drawing of the pose made for this piece; the watermelon story is
-              Sliman Mansour&apos;s; the kite poem is Refaat Alareer&apos;s. All other images in the
-              work were made for it.
+              Shown as they are, from Wikimedia Commons: the Ramallah dress (19th century, The
+              Metropolitan Museum of Art, public domain); Juan Luna&apos;s Spoliarium (1884, public
+              domain); a photograph of Handala on a wall in Bilin (Palobserver, public domain); and a
+              photograph of a mural by Sliman Mansour and Nabil Anani (Amer Shomali, CC0). Handala
+              was created by Naji al-Ali and the mural is Mansour and Anani&apos;s: the photographs
+              are free to use, the artworks remain their artists&apos;, and they are shown here to be
+              studied and credited. The kite poem is Refaat Alareer&apos;s, and the kite beside it is
+              a drawing made for this piece, as are all other images in the work.
             </p>
           </div>
         </section>

@@ -159,6 +159,16 @@ export const SOURCES: { chapter: string; items: Source[] }[] = [
         source: "The Metropolitan Museum of Art",
         url: "https://www.metmuseum.org/art/collection/search/82693",
       },
+      {
+        claim: "Photograph of Handala painted on a wall in Bilin, 1 April 2011, by Palobserver; released into the public domain. Image shown in the gallery (cropped).",
+        source: "Wikimedia Commons, File:HandalaBilin.JPG",
+        url: "https://commons.wikimedia.org/wiki/File:HandalaBilin.JPG",
+      },
+      {
+        claim: "Photograph, 27 December 2014, by Amer Shomali (CC0), of a mural by Sliman Mansour and Nabil Anani on the wall of Inash al-Usra, al-Bireh. Image shown in the gallery.",
+        source: "Wikimedia Commons, File:Inash Al-Usra Mural, Sliman Mansour and Nabil Anani.jpg",
+        url: "https://commons.wikimedia.org/wiki/File:Inash_Al-Usra_Mural,_Sliman_Mansour_and_Nabil_Anani.jpg",
+      },
     ],
   },
   {

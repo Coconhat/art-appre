@@ -4,7 +4,8 @@ An interactive artwork about Palestine, and how close it is to the Philippines, 
 Appreciation final by Nhat Vu Le, Jay-el Oconer, Renzo Cabral and Marc Bradley Arboleda. Ten
 scroll-driven parts with 3D scenes, procedural art and live sound.
 
-- **Present it:** [docs/PRESENTER_GUIDE.md](docs/PRESENTER_GUIDE.md)
+- **Present it:** [docs/PRESENTER_GUIDE.md](docs/PRESENTER_GUIDE.md), and a short script to
+  memorise: [docs/SCRIPT.md](docs/SCRIPT.md)
 - **What everything means:** the Artist statement page at `/statement`
 - **Every number and its source:** [src/content/facts.ts](src/content/facts.ts) and
   [src/content/sources.ts](src/content/sources.ts)
@@ -29,7 +30,7 @@ npm run build && npm run start   # for presenting (smoother)
 | Pader | `Wall.tsx` | horizontal scroll, SVG spray-paint filter |
 | Lakad | `Walk.tsx`, `three/WalkStage.tsx`, `three/walkData.ts` | instanced 3D Gaza Strip, steerable walk |
 | Bilang | `Count.tsx`, `three/LightsStage.tsx` | 74,561-point shader field |
-| Sining | `Gallery.tsx`, `art/*`, `public/art/*` | two real public-domain works (Met dress, Luna's Spoliarium), SVG homages for the rest |
+| Sining | `Gallery.tsx`, `art/*`, `public/art/*` | real works with credits (Met dress, Luna's Spoliarium, Handala in Bilin, a Mansour and Anani mural), an SVG kite |
 | Sinulid | `Thread.tsx`, `three/GlobeStage.tsx` | cross-stitch globe, running-stitch threads |
 | Halaga | `Price.tsx`, `art/Ripples.tsx`, `art/PriceBoard.tsx` | canvas ripples, SVG seven-segment fuel price board |
 | Kalayaan | `Freedom.tsx`, `art/KiteSky.tsx` | flag assembly, kite physics |
